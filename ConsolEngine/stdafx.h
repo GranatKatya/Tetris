@@ -12,10 +12,12 @@
 #include <assert.h>
 #include <strsafe.h>
 
+#include "ShapesTemplate.h"
 #include "PerformanceCounter.h"
+#include "Shape.h"
 #include "BaseApp.h"
 #include "TestApp.h"
-#include "Shape.h"
-#include "ShapesTemplate.h"
+
+
 
 using namespace std;

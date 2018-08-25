@@ -2,6 +2,7 @@
 #define MY_PERFORMENCE_COUNTER
 #include "stdafx.h"
 
+class Shape;
 
 BaseApp::BaseApp(int xSize, int ySize) : X_SIZE(xSize), Y_SIZE(ySize)
 {
@@ -81,6 +82,9 @@ void BaseApp::Run()
 	int sum = 0;
 	int counter = 0;
 
+	shape.Create_Shape(shapetemplate);
+
+
 	int deltaTime = 0;
 	while (1)
 	{
@@ -92,7 +96,7 @@ void BaseApp::Run()
 				cout<<"FlushConsoleInputBuffer failed with error "<<GetLastError();
 		}
 
-		UpdateF((float)deltaTime / 1000.0f);
+		//UpdateF((float)deltaTime / 1000.0f);
 		Render();
 		Sleep(1);
 
@@ -114,6 +118,9 @@ void BaseApp::Run()
 			counter = 0;
 			sum = 0;
 		}
+
+		UpdateF();
+
 	}
 }
 
@@ -123,8 +130,8 @@ void BaseApp::Run()
 bool BaseApp::Check_Overlap(Shape &shape) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			if (shape.GetY() + i >= 0 && shape.GetX() + j >= 0 && shape.GetY() + i <= 19 && shape.GetX() + j <= 9) {
-				if (shape.GetAArrayElement(i, j) == GetChar(shape.GetY() + i, shape.GetX() + j) && shape.GetAArrayElement(i, j) == '#') {
+			if (shape.GetY() + i >= 0 && shape.GetX() + j >= 0 && shape.GetY() + i <= 14 && shape.GetX() + j <= 14) {
+				if (shape.GetArrayElement( j,i) == GetChar(shape.GetY() + i, shape.GetX() + j) && shape.GetArrayElement(j,i) == '*') {
 					return true;
 				}
 			}
@@ -138,7 +145,7 @@ bool BaseApp::Check_In_Borders(Shape &shape) {
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			if (shape.GetAArrayElement(i, j) == '#') {
+			if (shape.GetArrayElement(j, i) == '#') {
 				if ((i + shape.GetY()) > 15) {
 					return false;
 				}
@@ -154,7 +161,7 @@ bool BaseApp::Check_In_Borders(Shape &shape) {
 	return true;
 }
 
-bool BaseApp::Can_Move(Shape &shape, int direction) {
+bool BaseApp::Can_Move(Shape shape, int direction) {
 	Shape temp_shape = shape;
 	//Move_Shape(temp_shape, direction);
 	temp_shape.Move(direction);
@@ -167,3 +174,68 @@ bool BaseApp::Can_Move(Shape &shape, int direction) {
 	}
 	return true;
 }
+
+
+ void BaseApp::UpdateF() {
+	if (Can_Move(shape, 4)) {
+		shape.Print(*this, ' ');
+		shape.Move(4);
+		shape.Print(*this, '#');
+	}
+	else {
+		Fix_Shape(); // add shape to our building
+		Check_Line();
+	}
+}
+
+
+void BaseApp::Remove_Line(int line) {
+
+	for (int i = 0; i < 15; i++) {
+		SetChar(i, line, ' ');
+	}
+	Render();
+	Sleep(30);
+
+	for (int i = line - 1; i >= 0; i--) {
+		for (int j = 0; j < 10; j++) {
+			SetChar(j, i + 1, GetChar(j, i));
+		}
+	}
+
+	Render();
+}
+
+
+void BaseApp::Check_Line() {
+	int multiplicator = 1;
+	for (int i = 0; i < 15; i++) {
+		bool line_completed = true;
+		for (int j = 0; j < 15; j++) {
+			if (GetChar(j, i) == ' ') {
+				line_completed = false;
+			}
+		}
+		if (line_completed == true) {
+			Remove_Line(i);
+			/*score += 10 * multiplicator;
+			multiplicator++;
+			Print_Score();*/
+		}
+	}
+
+}
+
+void BaseApp::Fix_Shape() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+
+			if (shape.GetArrayElement(i, j) == '#') {
+				if (shape.GetY() + i >= 0 && shape.GetY() + i <= 15 && shape.GetX() + j >= 0 && shape.GetX() + j <= 15) {
+					SetChar((shape.GetX() + j), (shape.GetY() + i), '*');
+				}
+			}
+		}
+	}
+}
+

@@ -18,6 +18,9 @@ private:
 	COORD mDwBufferCoord;
 	SMALL_RECT mLpWriteRegion;
 
+	Shape shape;
+	ShapeTemplates shapetemplate;
+
 	void Render();
 
 public:
@@ -38,7 +41,7 @@ public:
 
 	/*эта функция вызывается каждую игровую итерацию, её можно переопределить, в наследнике класса.
 	в неё приходит deltaTime - разница во времени между предыдущей итерацией и этой, в секундах*/
-	virtual void UpdateF (float deltaTime){}
+	//virtual void UpdateF (float deltaTime){}
 	/*эта функция вызывается при нажатии клавиши на клавиатуре, в неё приходит код клавиши - btnCode.
 	если использовать стрелки или функциональные клавиши, то придет общее для них число, например 224, а следующее за ним - 
 	будет уже непосредственно код самой клавиши, его можно получить, вызвав метод getch().
@@ -47,6 +50,14 @@ public:
 	
 	bool Check_Overlap(Shape &shape);
 	bool Check_In_Borders(Shape &shape);
-	bool Can_Move(Shape &shape, int direction);
+	bool Can_Move(Shape shape, int direction);
 
+	virtual void UpdateF();
+	void Remove_Line(int line);
+	void Check_Line();
+	void Fix_Shape();
+
+	Shape GetShape() {
+		return shape;
+	}
 };
