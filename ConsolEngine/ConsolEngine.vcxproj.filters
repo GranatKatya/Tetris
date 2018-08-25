@@ -16,6 +16,9 @@
     <ClCompile Include="TestApp.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseApp.h">
@@ -27,5 +30,8 @@
     <ClInclude Include="TestApp.h">
       <Filter>sources</Filter>
     </ClInclude>
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ShapesTemplate.h" />
   </ItemGroup>
 </Project>

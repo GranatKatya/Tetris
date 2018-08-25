@@ -1,21 +1,22 @@
 // Copyright 2009-2014 Blam Games, Inc. All Rights Reserved.
 
-#include "TestApp.h"
+#include "stdafx.h"
 
-TestApp::TestApp() : Parent(100, 80)
+TestApp::TestApp() : Parent(30, 18)
 {
 	mDirection = true;
 	mObj1XOld = mObj1X = 10;
 	mObj1YOld = mObj1Y = 10;
 	mObj2X = 10;
 	mObj2Y = 12;
+	SetBorders();
 }
 
 void TestApp::KeyPressed(int btnCode)
 {
-	if (btnCode == 119) //w
-		mObj1Y--;
-	else if (btnCode == 115) //s
+	//if (btnCode == 119) //w
+	//	mObj1Y--;
+	 if (btnCode == 115) //s
 		mObj1Y++;
 	else if (btnCode == 97) //a
 		mObj1X--;
@@ -27,9 +28,9 @@ void TestApp::KeyPressed(int btnCode)
 	else if (mObj1X >= X_SIZE)
 		mObj1X = X_SIZE - 1;
 
-	if (mObj1Y < 0)
-		mObj1Y = 0;
-	else if (mObj1Y >=Y_SIZE)
+	/*if (mObj1Y < 0)
+		mObj1Y = 0;*/
+	 if (mObj1Y >=Y_SIZE)
 		mObj1Y = Y_SIZE - 1;
 }
 

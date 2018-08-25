@@ -1,13 +1,11 @@
 // Copyright 2009-2014 Blam Games, Inc. All Rights Reserved.
 
-#pragma once
 
-#include <iostream>
-#include <Windows.h>
-#include <vector>
-#include <string>
 
-using namespace std;
+#include "stdafx.h"
+
+class Shape;
+
 
 class BaseApp
 {
@@ -46,4 +44,9 @@ public:
 	будет уже непосредственно код самой клавиши, его можно получить, вызвав метод getch().
 	Метод KeyPressed так же можно переопределить в наследнике*/
 	virtual void KeyPressed (int btnCode){}
+	
+	bool Check_Overlap(Shape &shape);
+	bool Check_In_Borders(Shape &shape);
+	bool Can_Move(Shape &shape, int direction);
+
 };

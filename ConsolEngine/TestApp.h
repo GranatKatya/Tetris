@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "BaseApp.h"
+#include "stdafx.h"
 
 class TestApp : public BaseApp
 {
@@ -19,8 +19,29 @@ class TestApp : public BaseApp
 
 		bool mDirection;
 
+
+	
+
 	public:
 		TestApp();
 		virtual void KeyPressed(int btnCode);
 		virtual void UpdateF(float deltaTime);
+
+
+		//initialized field 
+		void SetBorders() {
+			for (int i = 3; i < 17; i++) {
+
+				SetChar(i, 1, L'_');
+				SetChar(i, 16, L'_');
+			}
+
+			for (int j = 2; j < 17; j++) {
+				SetChar(2, j, L'|');
+				SetChar(17, j, L'|');
+			}
+		}
+
+
+		
 };

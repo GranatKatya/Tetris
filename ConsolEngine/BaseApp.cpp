@@ -1,15 +1,7 @@
 // Copyright 2009-2014 Blam Games, Inc. All Rights Reserved.
-
-#include "TestApp.h"
-#include <algorithm>
-#include <time.h>
-#include <conio.h>
-#include <assert.h>
-#include <strsafe.h>
-
 #define MY_PERFORMENCE_COUNTER
+#include "stdafx.h"
 
-#include "PerformanceCounter.h"
 
 BaseApp::BaseApp(int xSize, int ySize) : X_SIZE(xSize), Y_SIZE(ySize)
 {
@@ -123,4 +115,55 @@ void BaseApp::Run()
 			sum = 0;
 		}
 	}
+}
+
+
+
+
+bool BaseApp::Check_Overlap(Shape &shape) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (shape.GetY() + i >= 0 && shape.GetX() + j >= 0 && shape.GetY() + i <= 19 && shape.GetX() + j <= 9) {
+				if (shape.GetAArrayElement(i, j) == GetChar(shape.GetY() + i, shape.GetX() + j) && shape.GetAArrayElement(i, j) == '#') {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
+bool BaseApp::Check_In_Borders(Shape &shape) {
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (shape.GetAArrayElement(i, j) == '#') {
+				if ((i + shape.GetY()) > 15) {
+					return false;
+				}
+				if ((j + shape.GetX()) < 0) {
+					return false;
+				}
+				if ((j + shape.GetX()) > 15) {
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+bool BaseApp::Can_Move(Shape &shape, int direction) {
+	Shape temp_shape = shape;
+	//Move_Shape(temp_shape, direction);
+	temp_shape.Move(direction);
+	if (Check_Overlap(temp_shape)) {
+		return false;
+	}
+
+	if (!Check_In_Borders(temp_shape)) {
+		return false;
+	}
+	return true;
 }

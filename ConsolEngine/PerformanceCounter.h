@@ -1,6 +1,6 @@
 // Copyright 2009-2014 Blam Games, Inc. All Rights Reserved.
-
-#include <windows.h>
+#pragma once
+#include "stdafx.h"
 
 class CStopwatch
 {
