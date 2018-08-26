@@ -15,6 +15,7 @@ TestApp::TestApp() : Parent(30, 18)
 void TestApp::KeyPressed(int btnCode)
 {
 	GetShape()->Print(*this, ' ');
+
 	if (btnCode == 115) //s
 	{
 		if (Can_Move(*GetShape(), 4)) {
@@ -34,6 +35,10 @@ void TestApp::KeyPressed(int btnCode)
 		if (Can_Move(*GetShape(), 2)) {
 			GetShape()->Move(2);
 		}
+	}
+	else if (btnCode == 32) //space
+	{
+		GetShape()->Rotate_With_Checks(*this);
 	}
 	GetShape()->Print(*this, '#');
 

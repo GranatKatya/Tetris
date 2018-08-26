@@ -7,6 +7,7 @@ void Shape::SetY(int y) { _y = y; }
 wchar_t Shape::GetArrayElement(int x, int y) { return _array[y][x]; }
 
 void Shape::Create_Shape(ShapeTemplates &templateshape) {
+	srand(time(NULL));
 	int randfigure = rand() % 7;
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
@@ -17,9 +18,15 @@ void Shape::Create_Shape(ShapeTemplates &templateshape) {
 
 
 void Shape::Rotate() {
+	wchar_t ar[4][4];
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			_array[i][j] = _array[j][3 - i];
+			ar[i][j] = _array[j][3 - i];
+		}
+	}
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			_array[i][j] = ar[i][j];
 		}
 	}
 }
@@ -29,7 +36,7 @@ void Shape::Rotate_With_Checks(BaseApp &app) {//повернуть фигуру
 	Shape temp_shape = *this;
 	temp_shape.Rotate();
 
-	if (app.Check_Overlap(temp_shape)) {//перекрывание
+	if (app.Check_Overlap(temp_shape)) {//перекрываниеd
 		return;
 	}
 	if (_y > 15) {// y

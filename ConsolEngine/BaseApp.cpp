@@ -83,7 +83,7 @@ void BaseApp::Run()
 	int counter = 0;
 
 	int deltaTime = 0;
-
+	int fallcounter = 0;
 
 	shape.Create_Shape(shapetemplate);
 	while (1)
@@ -99,7 +99,7 @@ void BaseApp::Run()
 
 		//UpdateF((float)deltaTime / 1000.0f);
 		Render();
-		Sleep(400);
+		//Sleep(400);
 
 		while (1)
 		{
@@ -118,9 +118,15 @@ void BaseApp::Run()
 
 			counter = 0;
 			sum = 0;
+			
 		}
 
-		UpdateF();
+		fallcounter += deltaTime;
+		if (fallcounter>500) {
+			UpdateF();
+			fallcounter = 0;
+		}
+		
 		/*if (!Can_Move(shape, 4)) {
 			shape.Create_Shape(shapetemplate);
 		}*/
@@ -135,7 +141,7 @@ void BaseApp::Run()
 bool BaseApp::Check_Overlap(Shape &shape) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			if (shape.GetY() + i >= 0 && shape.GetX() + j >= 0 && shape.GetY() + i <= 15 && shape.GetX() + j <= 14) {
+			if (shape.GetY() + i >= 3 && shape.GetX() + j >= 3 && shape.GetY() + i <= 15 && shape.GetX() + j <= 16) {
 				if (GetChar(shape.GetX() + j, shape.GetY() + i) == '*' && shape.GetArrayElement(j,i) == '#') {
 					return true;
 				}
@@ -166,6 +172,7 @@ bool BaseApp::Check_In_Borders(Shape &shape) {
 	return true;
 }
 
+
 bool BaseApp::Can_Move(Shape shape, int direction) {
 	Shape temp_shape = shape;
 	//Move_Shape(temp_shape, direction);
@@ -182,31 +189,33 @@ bool BaseApp::Can_Move(Shape shape, int direction) {
 
 
  void BaseApp::UpdateF() {
-	if (Can_Move(shape, 4)) {
-		shape.Print(*this, ' ');
-		shape.Move(4);
-		shape.Print(*this, '#');
-	}
-	else {
-		Fix_Shape(); // add shape to our building
-		Check_Line();
-		GetShape()->SetX(7);
-		GetShape()->SetY(-2);
-		GetShape()->Create_Shape(shapetemplate);
-	}
+	
+		 if (Can_Move(shape, 4)) {
+			 shape.Print(*this, ' ');
+			 shape.Move(4);
+			 shape.Print(*this, '#');
+		 }
+		 else {
+			 Fix_Shape(); // add shape to our building
+			 Check_Line();
+			 GetShape()->SetX(7);
+			 GetShape()->SetY(-2);
+			 GetShape()->Create_Shape(shapetemplate);
+		 }
+	 
 }
 
 
 void BaseApp::Remove_Line(int line) {
 
-	for (int i = 0; i < 15; i++) {
+	for (int i = 3; i < 17; i++) {
 		SetChar(i, line, ' ');
 	}
 	Render();
 	Sleep(30);
 
-	for (int i = line - 1; i >= 0; i--) {
-		for (int j = 0; j < 10; j++) {
+	for (int i = line - 1; i >= 2; i--) {
+		for (int j = 3; j < 17; j++) {
 			SetChar(j, i + 1, GetChar(j, i));
 		}
 	}
@@ -217,10 +226,10 @@ void BaseApp::Remove_Line(int line) {
 
 void BaseApp::Check_Line() {
 	int multiplicator = 1;
-	for (int i = 0; i < 15; i++) {
+	for (int i = 2; i < 16; i++) {
 		bool line_completed = true;
-		for (int j = 0; j < 15; j++) {
-			if (GetChar(j, i) == ' ') {
+		for (int j = 3; j < 17; j++) {
+			if (GetChar(j, i) != '*' ) {
 				line_completed = false;
 			}
 		}
