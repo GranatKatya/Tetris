@@ -2,6 +2,9 @@
 #pragma once
 #include "stdafx.h"
 
+
+//#define MY_PERFORMENCE_COUNTER
+
 class CStopwatch
 {
 public:

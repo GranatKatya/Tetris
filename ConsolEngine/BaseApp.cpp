@@ -82,23 +82,24 @@ void BaseApp::Run()
 	int sum = 0;
 	int counter = 0;
 
-	shape.Create_Shape(shapetemplate);
-
-
 	int deltaTime = 0;
+
+
+	shape.Create_Shape(shapetemplate);
 	while (1)
 	{
+
 		timer.Start();
 		if (kbhit())
 		{
-			KeyPressed (getch());
+			KeyPressed(getch());
 			if (!FlushConsoleInputBuffer(mConsoleIn)) // чистим буфер kbhit
-				cout<<"FlushConsoleInputBuffer failed with error "<<GetLastError();
+				cout << "FlushConsoleInputBuffer failed with error " << GetLastError();
 		}
 
 		//UpdateF((float)deltaTime / 1000.0f);
 		Render();
-		Sleep(1);
+		Sleep(400);
 
 		while (1)
 		{
@@ -120,8 +121,12 @@ void BaseApp::Run()
 		}
 
 		UpdateF();
+		/*if (!Can_Move(shape, 4)) {
+			shape.Create_Shape(shapetemplate);
+		}*/
 
 	}
+
 }
 
 
@@ -130,8 +135,8 @@ void BaseApp::Run()
 bool BaseApp::Check_Overlap(Shape &shape) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			if (shape.GetY() + i >= 0 && shape.GetX() + j >= 0 && shape.GetY() + i <= 14 && shape.GetX() + j <= 14) {
-				if (shape.GetArrayElement( j,i) == GetChar(shape.GetY() + i, shape.GetX() + j) && shape.GetArrayElement(j,i) == '*') {
+			if (shape.GetY() + i >= 0 && shape.GetX() + j >= 0 && shape.GetY() + i <= 15 && shape.GetX() + j <= 14) {
+				if (GetChar(shape.GetX() + j, shape.GetY() + i) == '*' && shape.GetArrayElement(j,i) == '#') {
 					return true;
 				}
 			}
@@ -145,14 +150,14 @@ bool BaseApp::Check_In_Borders(Shape &shape) {
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			if (shape.GetArrayElement(j, i) == '#') {
-				if ((i + shape.GetY()) > 15) {
+			if (shape.GetArrayElement(i,j) == '#') {
+				if ((j + shape.GetY()) > 15) {
 					return false;
 				}
-				if ((j + shape.GetX()) < 0) {
+				if ((i + shape.GetX()) < 3) {
 					return false;
 				}
-				if ((j + shape.GetX()) > 15) {
+				if ((i + shape.GetX()) > 16) {
 					return false;
 				}
 			}
@@ -185,6 +190,9 @@ bool BaseApp::Can_Move(Shape shape, int direction) {
 	else {
 		Fix_Shape(); // add shape to our building
 		Check_Line();
+		GetShape()->SetX(7);
+		GetShape()->SetY(-2);
+		GetShape()->Create_Shape(shapetemplate);
 	}
 }
 
@@ -232,7 +240,8 @@ void BaseApp::Fix_Shape() {
 
 			if (shape.GetArrayElement(i, j) == '#') {
 				if (shape.GetY() + i >= 0 && shape.GetY() + i <= 15 && shape.GetX() + j >= 0 && shape.GetX() + j <= 15) {
-					SetChar((shape.GetX() + j), (shape.GetY() + i), '*');
+					//SetChar((shape.GetX() + j), (shape.GetY() + i), '*');
+					GetShape()->Print(*this, '*');
 				}
 			}
 		}

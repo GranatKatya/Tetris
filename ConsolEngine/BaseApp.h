@@ -57,7 +57,7 @@ public:
 	void Check_Line();
 	void Fix_Shape();
 
-	Shape GetShape() {
-		return shape;
+	Shape* GetShape() {
+		return &shape;
 	}
 };

@@ -4,10 +4,10 @@ int Shape::GetX() { return _x; }
 int Shape::GetY() { return _y; }
 void Shape::SetX(int x) { _x = x; }
 void Shape::SetY(int y) { _y = y; }
-wchar_t Shape::GetArrayElement(int x, int y) { return _array[x][y]; }
+wchar_t Shape::GetArrayElement(int x, int y) { return _array[y][x]; }
 
 void Shape::Create_Shape(ShapeTemplates &templateshape) {
-	int randfigure = rand() % 9;
+	int randfigure = rand() % 7;
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			_array[i][j] = templateshape.GetChar(randfigure, i, j);

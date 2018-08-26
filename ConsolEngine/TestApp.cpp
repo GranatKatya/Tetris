@@ -14,20 +14,28 @@ TestApp::TestApp() : Parent(30, 18)
 
 void TestApp::KeyPressed(int btnCode)
 {
-	//if (btnCode == 119) //w
-	//	mObj1Y--;
+	GetShape()->Print(*this, ' ');
 	if (btnCode == 115) //s
-		if (Can_Move(GetShape(),4)) {
-			GetShape().Move(4); 
+	{
+		if (Can_Move(*GetShape(), 4)) {
+			
+			GetShape()->Move(4);
+
 		}
+	}
 	else if (btnCode == 97) //a
-		if (Can_Move(GetShape(), 3)) {
-			GetShape().Move(3);
+	{
+		if (Can_Move(*GetShape(), 3)) {
+			GetShape()->Move(3);
 		}
+	}
 	else if (btnCode == 100) //d
-		if (Can_Move(GetShape(), 2)) {
-			GetShape().Move(2);
+	{
+		if (Can_Move(*GetShape(), 2)) {
+			GetShape()->Move(2);
 		}
+	}
+	GetShape()->Print(*this, '#');
 
 }
 
