@@ -8,7 +8,6 @@ class Shape {
 	wchar_t _array[4][4];
 	int _x =  7;
 	int _y = -4;
-	int color[3];
 public:
 	Shape() {}
 	int GetX();
@@ -20,7 +19,6 @@ public:
 	void Rotate_With_Checks(BaseApp &app);
 	void Move(int direction);
 	void Print(BaseApp &app, wchar_t ch);
-	//void SetArrayElement(wchar_t &arr);
 	void Create_Shape(ShapeTemplates &templateshape);
 
 

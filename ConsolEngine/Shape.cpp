@@ -6,6 +6,7 @@ void Shape::SetX(int x) { _x = x; }
 void Shape::SetY(int y) { _y = y; }
 wchar_t Shape::GetArrayElement(int x, int y) { return _array[y][x]; }
 
+
 void Shape::Create_Shape(ShapeTemplates &templateshape) {
 	srand(time(NULL));
 	int randfigure = rand() % 7;
@@ -92,7 +93,7 @@ void Shape::Print(BaseApp &app, wchar_t ch) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			if (_array[i][j] == '#') {
-				if (_y + i >= 0) {
+				if (_y + i >= 2) {
 					app.SetChar(_x + j, _y + i, ch);
 				}
 			}

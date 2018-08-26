@@ -12,6 +12,8 @@
 #include <assert.h>
 #include <strsafe.h>
 
+
+
 #include "ShapesTemplate.h"
 #include "PerformanceCounter.h"
 #include "Shape.h"

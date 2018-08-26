@@ -4,6 +4,10 @@
 
 class Shape;
 
+
+
+
+
 BaseApp::BaseApp(int xSize, int ySize) : X_SIZE(xSize), Y_SIZE(ySize)
 {
 	SMALL_RECT windowSize = {0, 0, X_SIZE, Y_SIZE};
@@ -86,6 +90,10 @@ void BaseApp::Run()
 	int fallcounter = 0;
 
 	shape.Create_Shape(shapetemplate);
+	nextShape.Create_Shape(shapetemplate);
+	nextShape.SetX(18);
+	nextShape.SetY(4);
+	nextShape.Print(*this,'#');
 	while (1)
 	{
 
@@ -142,7 +150,7 @@ bool BaseApp::Check_Overlap(Shape &shape) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			if (shape.GetY() + i >= 3 && shape.GetX() + j >= 3 && shape.GetY() + i <= 15 && shape.GetX() + j <= 16) {
-				if (GetChar(shape.GetX() + j, shape.GetY() + i) == '*' && shape.GetArrayElement(j,i) == '#') {
+				if (GetChar(shape.GetX() + j, shape.GetY() + i) == '@' && shape.GetArrayElement(j,i) == '#') {
 					return true;
 				}
 			}
@@ -198,15 +206,21 @@ bool BaseApp::Can_Move(Shape shape, int direction) {
 		 else {
 			 Fix_Shape(); // add shape to our building
 			 Check_Line();
+			 Check_Lose();
+			 
+			 SetShape(nextShape);
+			 GetNextShape()->Print(*this, ' ');
 			 GetShape()->SetX(7);
 			 GetShape()->SetY(-2);
-			 GetShape()->Create_Shape(shapetemplate);
-		 }
-	 
+			 GetNextShape()->Create_Shape(shapetemplate);
+			 GetNextShape()->Print(*this, '#');
+		 }	 
 }
 
 
 void BaseApp::Remove_Line(int line) {
+	mscore += 10;
+	PrintScore();
 
 	for (int i = 3; i < 17; i++) {
 		SetChar(i, line, ' ');
@@ -221,6 +235,7 @@ void BaseApp::Remove_Line(int line) {
 	}
 
 	Render();
+
 }
 
 
@@ -229,7 +244,7 @@ void BaseApp::Check_Line() {
 	for (int i = 2; i < 16; i++) {
 		bool line_completed = true;
 		for (int j = 3; j < 17; j++) {
-			if (GetChar(j, i) != '*' ) {
+			if (GetChar(j, i) != '@' ) {
 				line_completed = false;
 			}
 		}
@@ -249,11 +264,12 @@ void BaseApp::Fix_Shape() {
 
 			if (shape.GetArrayElement(i, j) == '#') {
 				if (shape.GetY() + i >= 0 && shape.GetY() + i <= 15 && shape.GetX() + j >= 0 && shape.GetX() + j <= 15) {
-					//SetChar((shape.GetX() + j), (shape.GetY() + i), '*');
-					GetShape()->Print(*this, '*');
+					GetShape()->Print(*this, '@');
 				}
 			}
 		}
 	}
 }
-
+void BaseApp::SetShape(Shape newShape) {
+	shape = newShape;
+}
