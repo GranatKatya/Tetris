@@ -1,5 +1,5 @@
 // Copyright 2009-2014 Blam Games, Inc. All Rights Reserved.
-#define MY_PERFORMENCE_COUNTER
+//#define MY_PERFORMENCE_COUNTER
 #include "stdafx.h"
 
 class Shape;
@@ -10,17 +10,17 @@ class Shape;
 
 BaseApp::BaseApp(int xSize, int ySize) : X_SIZE(xSize), Y_SIZE(ySize)
 {
-	SMALL_RECT windowSize = {0, 0, X_SIZE, Y_SIZE};
-	COORD windowBufSize = {X_SIZE+1, Y_SIZE+1};
+	SMALL_RECT windowSize = { 0, 0, X_SIZE, Y_SIZE };
+	COORD windowBufSize = { X_SIZE + 1, Y_SIZE + 1 };
 
 	mConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	mConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
 
-	if(!SetConsoleScreenBufferSize(mConsole,  windowBufSize))
+	if (!SetConsoleScreenBufferSize(mConsole, windowBufSize))
 	{
 		cout << "SetConsoleScreenBufferSize failed with error " << GetLastError() << endl;
 	}
-	if(!SetConsoleWindowInfo(mConsole, TRUE, &windowSize))
+	if (!SetConsoleWindowInfo(mConsole, TRUE, &windowSize))
 	{
 		cout << "SetConsoleWindowInfo failed with error " << GetLastError() << endl;
 	}
@@ -32,7 +32,7 @@ BaseApp::BaseApp(int xSize, int ySize) : X_SIZE(xSize), Y_SIZE(ySize)
 	SetConsoleCursorInfo(mConsole, &cursorInfo);
 
 
-	mChiBuffer = (CHAR_INFO*)malloc((X_SIZE+1)*(Y_SIZE+1)*sizeof(CHAR_INFO));
+	mChiBuffer = (CHAR_INFO*)malloc((X_SIZE + 1)*(Y_SIZE + 1)*sizeof(CHAR_INFO));
 
 	mDwBufferSize.X = X_SIZE + 1;
 	mDwBufferSize.Y = Y_SIZE + 1;		// размер буфера данных
@@ -46,9 +46,9 @@ BaseApp::BaseApp(int xSize, int ySize) : X_SIZE(xSize), Y_SIZE(ySize)
 	mLpWriteRegion.Bottom = Y_SIZE + 1;	// прямоугольник для чтения
 
 
-	for (int x=0; x<X_SIZE+1; x++)
+	for (int x = 0; x<X_SIZE + 1; x++)
 	{
-		for (int y=0; y<Y_SIZE+1; y++)
+		for (int y = 0; y<Y_SIZE + 1; y++)
 		{
 			SetChar(x, y, L' ');
 		}
@@ -62,21 +62,21 @@ BaseApp::~BaseApp()
 
 void BaseApp::SetChar(int x, int y, wchar_t c)
 {
-	mChiBuffer[x + (X_SIZE+1)*y].Char.UnicodeChar = c;
-	mChiBuffer[x + (X_SIZE+1)*y].Attributes = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED;
+	mChiBuffer[x + (X_SIZE + 1)*y].Char.UnicodeChar = c;
+	mChiBuffer[x + (X_SIZE + 1)*y].Attributes = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED;
 
 }
 
 wchar_t BaseApp::GetChar(int x, int y)
 {
-	return mChiBuffer[x + (X_SIZE+1)*y].Char.AsciiChar;
+	return mChiBuffer[x + (X_SIZE + 1)*y].Char.AsciiChar;
 }
 
 void BaseApp::Render()
 {
-	if (!WriteConsoleOutput(mConsole, mChiBuffer, mDwBufferSize, mDwBufferCoord, &mLpWriteRegion)) 
+	if (!WriteConsoleOutput(mConsole, mChiBuffer, mDwBufferSize, mDwBufferCoord, &mLpWriteRegion))
 	{
-		printf("WriteConsoleOutput failed - (%d)\n", GetLastError()); 
+		printf("WriteConsoleOutput failed - (%d)\n", GetLastError());
 	}
 }
 
@@ -93,14 +93,14 @@ void BaseApp::Run()
 	nextShape.Create_Shape(shapetemplate);
 	nextShape.SetX(18);
 	nextShape.SetY(4);
-	nextShape.Print(*this,'#');
+	nextShape.Print(*this, '#');
 	while (1)
 	{
 
 		timer.Start();
-		if (kbhit())
+		if (_kbhit())
 		{
-			KeyPressed(getch());
+			KeyPressed(_getch());
 			if (!FlushConsoleInputBuffer(mConsoleIn)) // чистим буфер kbhit
 				cout << "FlushConsoleInputBuffer failed with error " << GetLastError();
 		}
@@ -126,7 +126,7 @@ void BaseApp::Run()
 
 			counter = 0;
 			sum = 0;
-			
+
 		}
 
 		fallcounter += deltaTime;
@@ -134,9 +134,9 @@ void BaseApp::Run()
 			UpdateF();
 			fallcounter = 0;
 		}
-		
+
 		/*if (!Can_Move(shape, 4)) {
-			shape.Create_Shape(shapetemplate);
+		shape.Create_Shape(shapetemplate);
 		}*/
 
 	}
@@ -150,7 +150,7 @@ bool BaseApp::Check_Overlap(Shape &shape) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			if (shape.GetY() + i >= 3 && shape.GetX() + j >= 3 && shape.GetY() + i <= 15 && shape.GetX() + j <= 16) {
-				if (GetChar(shape.GetX() + j, shape.GetY() + i) == '@' && shape.GetArrayElement(j,i) == '#') {
+				if (GetChar(shape.GetX() + j, shape.GetY() + i) == '@' && shape.GetArrayElement(j, i) == '#') {
 					return true;
 				}
 			}
@@ -164,7 +164,7 @@ bool BaseApp::Check_In_Borders(Shape &shape) {
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			if (shape.GetArrayElement(i,j) == '#') {
+			if (shape.GetArrayElement(i, j) == '#') {
 				if ((j + shape.GetY()) > 15) {
 					return false;
 				}
@@ -196,25 +196,25 @@ bool BaseApp::Can_Move(Shape shape, int direction) {
 }
 
 
- void BaseApp::UpdateF() {
-	
-		 if (Can_Move(shape, 4)) {
-			 shape.Print(*this, ' ');
-			 shape.Move(4);
-			 shape.Print(*this, '#');
-		 }
-		 else {
-			 Fix_Shape(); // add shape to our building
-			 Check_Line();
-			 Check_Lose();
-			 
-			 SetShape(nextShape);
-			 GetNextShape()->Print(*this, ' ');
-			 GetShape()->SetX(7);
-			 GetShape()->SetY(-2);
-			 GetNextShape()->Create_Shape(shapetemplate);
-			 GetNextShape()->Print(*this, '#');
-		 }	 
+void BaseApp::UpdateF() {
+
+	if (Can_Move(shape, 4)) {
+		shape.Print(*this, ' ');
+		shape.Move(4);
+		shape.Print(*this, '#');
+	}
+	else {
+		Fix_Shape(); // add shape to our building
+		Check_Line();
+		Check_Lose();
+
+		SetShape(nextShape);
+		GetNextShape()->Print(*this, ' ');
+		GetShape()->SetX(7);
+		GetShape()->SetY(-2);
+		GetNextShape()->Create_Shape(shapetemplate);
+		GetNextShape()->Print(*this, '#');
+	}
 }
 
 
@@ -244,7 +244,7 @@ void BaseApp::Check_Line() {
 	for (int i = 2; i < 16; i++) {
 		bool line_completed = true;
 		for (int j = 3; j < 17; j++) {
-			if (GetChar(j, i) != '@' ) {
+			if (GetChar(j, i) != '@') {
 				line_completed = false;
 			}
 		}

@@ -8,31 +8,31 @@ class TestApp : public BaseApp
 {
 	typedef BaseApp Parent;
 
-	private:
-		
+private:
 
-		
-	public:
-		TestApp();
-		virtual void KeyPressed(int btnCode);
+
+
+public:
+	TestApp();
+	virtual void KeyPressed(int btnCode);
 	//	virtual void UpdateF();
 
 
-		//initialized field 
-		void SetBorders() {
-			for (int i = 3; i < 17; i++) {
+	//initialized field 
+	void SetBorders() {
+		for (int i = 3; i < 17; i++) {
 
-				SetChar(i, 1, L'_');
-				SetChar(i, 16, L'T');
-			}
-
-			for (int j = 2; j < 17; j++) {
-
-				SetChar(2, j, L'|');
-				SetChar(17, j, L'|');
-			}
+			SetChar(i, 1, L'_');
+			SetChar(i, 16, L'T');
 		}
 
+		for (int j = 2; j < 17; j++) {
 
-		
+			SetChar(2, j, L'|');
+			SetChar(17, j, L'|');
+		}
+	}
+
+
+
 };

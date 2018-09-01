@@ -6,7 +6,7 @@ class BaseApp;
 class Shape {
 
 	wchar_t _array[4][4];
-	int _x =  7;
+	int _x = 7;
 	int _y = -4;
 public:
 	Shape() {}

@@ -19,7 +19,7 @@ void TestApp::KeyPressed(int btnCode)
 	if (btnCode == 115) //s
 	{
 		if (Can_Move(*GetShape(), 4)) {
-			
+
 			GetShape()->Move(4);
 
 		}
@@ -43,30 +43,3 @@ void TestApp::KeyPressed(int btnCode)
 	GetShape()->Print(*this, '#');
 
 }
-
-//void TestApp::UpdateF(float deltaTime)
-//{
-//	//SetChar(mObj1XOld, mObj1YOld, L' ');
-//	//SetChar(mObj1X, mObj1Y, L' ');
-//
-//	//mObj1XOld = mObj1X;
-//	//mObj1YOld = mObj1Y;
-//
-//	////-----------------------------
-//
-//	////SetChar(mObj2X, mObj2Y, L' ');
-//	//if (mDirection)
-//	//{
-//	//	mObj2X++;
-//	//	if (mObj2X == 40)
-//	//		mDirection = false;
-//	//}
-//	//else
-//	//{
-//	//	mObj2X--;
-//	//	if (mObj2X == 10)
-//	//		mDirection = true;
-//	//}
-//	//SetChar(mObj2X, mObj2Y, L'F');
-//}
-
