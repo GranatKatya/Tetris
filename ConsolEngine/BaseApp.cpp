@@ -250,9 +250,7 @@ void BaseApp::Check_Line() {
 		}
 		if (line_completed == true) {
 			Remove_Line(i);
-			/*score += 10 * multiplicator;
-			multiplicator++;
-			Print_Score();*/
+			
 		}
 	}
 

@@ -2,13 +2,10 @@
 
 #include "stdafx.h"
 
-TestApp::TestApp() : Parent(30, 18)
+TestApp::TestApp() : Parent(22, 18)
 {
-	/*mDirection = true;
-	mObj1XOld = mObj1X = 10;
-	mObj1YOld = mObj1Y = 10;
-	mObj2X = 10;
-	mObj2Y = 12;*/
+	
+
 	SetBorders();
 }
 
@@ -16,30 +13,72 @@ void TestApp::KeyPressed(int btnCode)
 {
 	GetShape()->Print(*this, ' ');
 
-	if (btnCode == 115) //s
+	if (btnCode == 224)
 	{
+		switch (btnCode)
+		{
+
+		case 80: // вниз
+			if (Can_Move(*GetShape(), 4)) {
+
+				GetShape()->Move(4);
+
+			}
+			break;
+		case 77://вправо
+			if (Can_Move(*GetShape(), 2)) {
+				GetShape()->Move(2);
+			}
+			break;
+
+		case 75:
+			if (Can_Move(*GetShape(), 3)) {
+				GetShape()->Move(3);
+			}
+			break;
+		case 32: //space
+
+			GetShape()->Rotate_With_Checks(*this);
+			break;
+		default:
+			break;
+
+		}
+	}
+
+
+	switch (btnCode)
+	{
+
+	case 80: // вниз
 		if (Can_Move(*GetShape(), 4)) {
 
 			GetShape()->Move(4);
 
 		}
-	}
-	else if (btnCode == 97) //a
-	{
-		if (Can_Move(*GetShape(), 3)) {
-			GetShape()->Move(3);
-		}
-	}
-	else if (btnCode == 100) //d
-	{
+		break;
+	case 77://вправо
 		if (Can_Move(*GetShape(), 2)) {
 			GetShape()->Move(2);
 		}
-	}
-	else if (btnCode == 32) //space
-	{
+		break;
+
+	case 75:
+		if (Can_Move(*GetShape(), 3)) {
+			GetShape()->Move(3);
+		}
+		break;
+	case 32: //space
+
 		GetShape()->Rotate_With_Checks(*this);
+		break;
+	default:
+		break;
+
 	}
+
+
+
 	GetShape()->Print(*this, '#');
 
 }
